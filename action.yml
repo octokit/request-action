@@ -1,7 +1,7 @@
 name: GitHub API Request
 description: "Send arbiatary requests to GitHub's REST API"
 branding:
-  icon: "tool"
+  icon: "box"
   color: gray-dark
 inputs:
   route:
