@@ -7,7 +7,7 @@
   "scripts": {
     "build": "ncc build index.js -o dist"
   },
-  "repository": "https://github.com/gr2m/create-or-update-pull-request-action.git",
+  "repository": "https://github.com/octokit/request-action",
   "keywords": [
     "github-action"
   ],
