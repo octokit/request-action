@@ -30,6 +30,10 @@ jobs:
       - run: "echo latest release: ${{ steps.get_latest_release.outputs.data }}"
 ```
 
+## Debugging
+
+To see additional debug logs, create a secret with the name: `ACTIONS_STEP_DEBUG` and value `true`.
+
 ## How it works
 
 `octokit/request-action` is using [`@octokit/request`](https://github.com/octokit/request.js/) internally with some additions
