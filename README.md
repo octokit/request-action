@@ -1,6 +1,6 @@
 # Octokit Request Action
 
-> A GitHub Action to send arbiatary requests to GitHub's REST API
+> A GitHub Action to send arbitrary requests to GitHub's REST API
 
 [![Build Status](https://github.com/octokit/core.js/workflows/Test/badge.svg)](https://github.com/octokit/core.js/actions)
 [![Greenkeeper](https://badges.greenkeeper.io/octokit/core.js.svg)](https://greenkeeper.io/)

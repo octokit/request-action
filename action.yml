@@ -1,5 +1,5 @@
 name: GitHub API Request
-description: "Send arbiatary requests to GitHub's REST API"
+description: "Send arbitrary requests to GitHub's REST API"
 branding:
   icon: "box"
   color: gray-dark

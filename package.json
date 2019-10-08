@@ -2,7 +2,7 @@
   "name": "@octokit/request-action",
   "private": true,
   "version": "0.0.0-development",
-  "description": "A GitHub Action to send arbiatary requests to GitHub's REST API",
+  "description": "A GitHub Action to send arbitrary requests to GitHub's REST API",
   "main": "dist/index.js",
   "scripts": {
     "build": "ncc build index.js -o dist"
