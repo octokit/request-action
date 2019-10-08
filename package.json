@@ -1,0 +1,41 @@
+{
+  "name": "@octokit/request-action",
+  "private": true,
+  "version": "0.0.0-development",
+  "description": "A GitHub Action to send arbiatary requests to GitHub's REST API",
+  "main": "index.js",
+  "scripts": {
+    "build": "ncc build index.js -o dist"
+  },
+  "repository": "https://github.com/gr2m/create-or-update-pull-request-action",
+  "keywords": [
+    "github-action"
+  ],
+  "author": "Gregor Martynus (https://twitter.com/gr2m)",
+  "license": "ISC",
+  "dependencies": {
+    "@actions/core": "^1.1.1",
+    "@octokit/action": "^1.0.0"
+  },
+  "devDependencies": {
+    "@semantic-release/git": "^7.0.16",
+    "@zeit/ncc": "^0.20.5",
+    "semantic-release": "^15.13.24"
+  },
+  "release": {
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      [
+        "@semantic-release/git",
+        {
+          "assets": [
+            "dist/index.js"
+          ],
+          "message": "build(release): compiled action for ${nextRelease.version}\n\n[skip ci]"
+        }
+      ],
+      "@semantic-release/github"
+    ]
+  }
+}
