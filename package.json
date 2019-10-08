@@ -12,7 +12,7 @@
     "github-action"
   ],
   "author": "Gregor Martynus (https://twitter.com/gr2m)",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@actions/core": "^1.1.1",
     "@octokit/action": "^1.0.0"
