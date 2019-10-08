@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0-development",
   "description": "A GitHub Action to send arbiatary requests to GitHub's REST API",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "build": "ncc build index.js -o dist"
   },
