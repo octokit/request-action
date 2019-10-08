@@ -1,0 +1,19 @@
+name: GitHub API Request
+description: "Send arbiatary requests to GitHub's REST API"
+branding:
+  icon: "tool"
+  color: gray-dark
+inputs:
+  route:
+    description: "HTTP Verb + path as shown on https://developer.github.com/v3/"
+    required: true
+outputs:
+  status:
+    description: "Response status code."
+  headers:
+    description: "Response headers as JSON string with lower cased header names."
+  data:
+    description: "Response body as string."
+runs:
+  using: "node12"
+  main: "dist/index.js"
