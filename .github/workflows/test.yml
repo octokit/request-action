@@ -1,0 +1,17 @@
+on: [push]
+name: Test
+jobs:
+  readmeExample:
+    name: "[TEST] README example"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - run: "npm ci"
+      - run: "npm run build"
+      - uses: ./
+        id: get_latest_release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          route: GET /repos/:owner/:repo/releases/latest
+      - run: "echo latest release: '${{ steps.get_latest_release.outputs.data }}'"
