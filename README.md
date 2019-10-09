@@ -20,7 +20,6 @@ jobs:
   update_routes:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
       - uses: octokit/request-action@v1.x
         id: get_latest_release
         with:
