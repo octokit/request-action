@@ -29,6 +29,8 @@ jobs:
       - run: "echo latest release: ${{ steps.get_latest_release.outputs.data }}"
 ```
 
+To access deep values of `outputs.data`, check out [`gr2m/get-json-paths-action`](https://github.com/gr2m/get-json-paths-action).
+
 ## Debugging
 
 To see additional debug logs, create a secret with the name: `ACTIONS_STEP_DEBUG` and value `true`.
