@@ -2,8 +2,8 @@
 
 > A GitHub Action to send arbitrary requests to GitHub's REST API
 
-[![Build Status](https://github.com/octokit/core.js/workflows/Test/badge.svg)](https://github.com/octokit/core.js/actions)
-[![Greenkeeper](https://badges.greenkeeper.io/octokit/core.js.svg)](https://greenkeeper.io/)
+[![Build Status](https://github.com/octokit/request-action/workflows/Test/badge.svg)](https://github.com/octokit/request-action/actions)
+[![Greenkeeper](https://badges.greenkeeper.io/octokit/request-action.svg)](https://greenkeeper.io/)
 
 ## Usage
 
