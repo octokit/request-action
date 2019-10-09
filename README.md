@@ -17,7 +17,7 @@ on:
       - master
 
 jobs:
-  update_routes:
+  logLatestRelease:
     runs-on: ubuntu-latest
     steps:
       - uses: octokit/request-action@v1.x
