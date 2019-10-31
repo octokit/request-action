@@ -29,11 +29,41 @@ jobs:
       - run: "echo latest release: ${{ steps.get_latest_release.outputs.data }}"
 ```
 
+`POST` example
+
+```yaml
+name: Create deployment
+on:
+  push:
+    branches:
+    - master
+
+jobs:
+  create-deployment:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: octokit/request-action@v1.x
+      id: create_deployment
+      with:
+        route: POST /repos/:owner/:repo/deployments
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        INPUT_REF: 'master'
+        INPUT_REQUIRED_CONTEXTS: '[]'
+        
+    - run: |
+        echo "${{ steps.create_deployment.outputs.data }}"
+```
+
 To access deep values of `outputs.data`, check out [`gr2m/get-json-paths-action`](https://github.com/gr2m/get-json-paths-action).
 
 ## Debugging
 
 To see additional debug logs, create a secret with the name: `ACTIONS_STEP_DEBUG` and value `true`.
+
+## Parameters
+
+To use request body parameters, set an environment variable with the prefix `INPUT_` and a suffix matching the parameter name, eg. `INPUT_NAME` to set the `name` parameter when [creating a repository](https://developer.github.com/v3/repos/#parameters-4).
 
 ## How it works
 
