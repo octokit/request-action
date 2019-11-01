@@ -29,10 +29,10 @@ jobs:
       - run: "echo latest release: ${{ steps.get_latest_release.outputs.data }}"
 ```
 
-More complex `POST` example
+More complex examples involving `POST`, setting headers, parsing output data, and dates
 
 ```yml
-name: Create file
+name: Check run
 on:
   push:
     branches:
@@ -42,18 +42,37 @@ jobs:
   create-file:
     runs-on: ubuntu-latest
     steps:
+    # Create check run
     - uses: octokit/request-action@v1.x
-      id: create_file
+      id: create_check_run
       with:
-        route: PUT /repos/:owner/:repo/contents/:path
-        path: 'test.txt'
-        message: 'Test commit'
-        content: 'dGVzdAo='
-        committer: '{"name": "Monalisa Octocat", "email": "octocat@github.com"}'
+        route: POST /repos/:owner/:repo/check-runs
+        headers: '{"accept": "application/vnd.github.antiope-preview+json"}'
+        name: 'Test check run'
+        head_sha: ${{ github.sha }}
+        output: '{"title":"Test check run title","summary": "A summary of the test check run", "images": [{"alt": "Test image", "image_url": "https://octodex.github.com/images/jetpacktocat.png"}]}'
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    - run: |
-        echo "${{ steps.create_file.outputs.data }}"
+    
+    # Parse steps.create_check_run.outputs.data, since it is a string
+    - id: parse_create_check_run
+      uses: gr2m/get-json-paths-action@v1.x
+      with:
+        json: ${{ steps.create_check_run.outputs.data }}
+        id: "id"
+        
+    # Update check run to completed, succesful status
+    - uses: octokit/request-action@v1.x
+      id: update_check_run
+      with:
+        route: PATCH /repos/:owner/:repo/check-runs/:check_run_id
+        check_run_id: ${{ steps.parse_create_check_run.outputs.id }}
+        headers: '{"accept": "application/vnd.github.antiope-preview+json"}'
+        conclusion: 'success'
+        status: 'completed'
+        completed_at: '"2019-11-01T13:59:43.227Z"'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
 To access deep values of `outputs.data`, check out [`gr2m/get-json-paths-action`](https://github.com/gr2m/get-json-paths-action).
