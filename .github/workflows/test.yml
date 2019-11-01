@@ -42,10 +42,9 @@ jobs:
         id: update_check_run
         with:
           route: PATCH /repos/:owner/:repo/check-runs/:check_run_id
-          check_run_id: ${{ steps.parse_create_check_run.outputs.id }}
           headers: '{"accept": "application/vnd.github.antiope-preview+json"}'
+          check_run_id: ${{ steps.parse_create_check_run.outputs.id }}
           conclusion: 'success'
           status: 'completed'
-          completed_at: '"2019-11-01T13:59:43.227Z"'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
