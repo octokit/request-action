@@ -434,7 +434,7 @@ function getAllInputs() {
   return Object.entries(process.env).reduce((result, [key, value]) => {
     if (!/^INPUT_/.test(key)) return result;
 
-    const inputName = key.substr("INPUT_".length).toLowerCase();
+    const inputName = key.toLowerCase() === 'input_mediatype' ? 'mediaType' : key.substr("INPUT_".length).toLowerCase();
     result[inputName] = value;
     return result;
   }, {});
