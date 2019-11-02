@@ -29,7 +29,7 @@ jobs:
       - run: "echo latest release: ${{ steps.get_latest_release.outputs.data }}"
 ```
 
-More complex examples involving `POST`, setting headers, parsing output data, and dates
+More complex examples involving `POST`, setting custom media types, and parsing output data
 
 ```yml
 name: Check run
@@ -47,7 +47,7 @@ jobs:
       id: create_check_run
       with:
         route: POST /repos/:owner/:repo/check-runs
-        headers: '{"accept": "application/vnd.github.antiope-preview+json"}'
+        mediaType: '{"previews": ["antiope"]}'
         name: 'Test check run'
         head_sha: ${{ github.sha }}
         output: '{"title":"Test check run title","summary": "A summary of the test check run", "images": [{"alt": "Test image", "image_url": "https://octodex.github.com/images/jetpacktocat.png"}]}'
@@ -66,7 +66,7 @@ jobs:
       id: update_check_run
       with:
         route: PATCH /repos/:owner/:repo/check-runs/:check_run_id
-        headers: '{"accept": "application/vnd.github.antiope-preview+json"}'
+        mediaType: '{"previews": ["antiope"]}'
         check_run_id: ${{ steps.parse_create_check_run.outputs.id }}
         conclusion: 'success'
         status: 'completed'
