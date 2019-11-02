@@ -59,7 +59,7 @@ function getAllInputs() {
 
     const inputName = key.toLowerCase() === 'input_mediatype' ? 'mediaType' : key.substr("INPUT_".length).toLowerCase();
     result[inputName] = yaml.safeLoad(value);
-
+    
     return result;
   }, {});
 }
