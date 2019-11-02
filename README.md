@@ -29,7 +29,56 @@ jobs:
       - run: "echo latest release: ${{ steps.get_latest_release.outputs.data }}"
 ```
 
+More complex examples involving `POST`, setting custom media types, and parsing output data
+
+```yml
+name: Check run
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  create-file:
+    runs-on: ubuntu-latest
+    steps:
+      # Create check run
+      - uses: octokit/request-action@v1.x
+        id: create_check_run
+        with:
+          route: POST /repos/:owner/:repo/check-runs
+          mediaType: '{"previews": ["antiope"]}'
+          name: "Test check run"
+          head_sha: ${{ github.sha }}
+          output: '{"title":"Test check run title","summary": "A summary of the test check run", "images": [{"alt": "Test image", "image_url": "https://octodex.github.com/images/jetpacktocat.png"}]}'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Parse steps.create_check_run.outputs.data, since it is a string
+      - id: parse_create_check_run
+        uses: gr2m/get-json-paths-action@v1.x
+        with:
+          json: ${{ steps.create_check_run.outputs.data }}
+          id: "id"
+
+      # Update check run to completed, succesful status
+      - uses: octokit/request-action@v1.x
+        id: update_check_run
+        with:
+          route: PATCH /repos/:owner/:repo/check-runs/:check_run_id
+          mediaType: '{"previews": ["antiope"]}'
+          check_run_id: ${{ steps.parse_create_check_run.outputs.id }}
+          conclusion: "success"
+          status: "completed"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+```
+
 To access deep values of `outputs.data`, check out [`gr2m/get-json-paths-action`](https://github.com/gr2m/get-json-paths-action).
+
+## Inputs
+
+To use request body parameters, simply pass in an `input` matching the parameter name. See previous examples.
 
 ## Debugging
 
