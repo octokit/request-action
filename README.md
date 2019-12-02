@@ -20,7 +20,7 @@ jobs:
   logLatestRelease:
     runs-on: ubuntu-latest
     steps:
-      - uses: octokit/request-action@v1.x
+      - uses: octokit/request-action@v2.x
         id: get_latest_release
         with:
           route: GET /repos/:repository/releases/latest
@@ -44,7 +44,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Create check run
-      - uses: octokit/request-action@v1.x
+      - uses: octokit/request-action@v2.x
         id: create_check_run
         with:
           route: POST /repos/:repository/check-runs
@@ -64,7 +64,7 @@ jobs:
           id: "id"
 
       # Update check run to completed, succesful status
-      - uses: octokit/request-action@v1.x
+      - uses: octokit/request-action@v2.x
         id: update_check_run
         with:
           route: PATCH /repos/:repository/check-runs/:check_run_id
