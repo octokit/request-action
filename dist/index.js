@@ -878,28 +878,13 @@ const { Octokit } = __webpack_require__(725);
 main();
 
 async function main() {
-  if (!process.env.GITHUB_REPOSITORY) {
-    core.setFailed(
-      'GITHUB_REPOSITORY missing, must be set to "<repo owner>/<repo name>"'
-    );
-    return;
-  }
-
   try {
-    const [owner, repo] = process.env.GITHUB_REPOSITORY.split("/");
     const octokit = new Octokit();
     const { route, ...parameters } = getAllInputs();
 
     core.info(route);
     for (const [name, value] of Object.entries(parameters)) {
       core.info(`> ${name}: ${value}`);
-    }
-
-    if (/:owner/.test(route)) {
-      parameters.owner = owner;
-    }
-    if (/:repo/.test(route)) {
-      parameters.repo = repo;
     }
 
     core.debug(`route: ${inspect(route)}`);
