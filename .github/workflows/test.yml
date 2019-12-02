@@ -11,40 +11,46 @@ jobs:
           node-version: "12.x"
       - run: "npm ci"
       - run: "npm run build"
-      - uses: ./
+      - name: "Get latest release of ${{ github.repository }}"
+        uses: ./
         id: get_latest_release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          route: GET /repos/:owner/:repo/releases/latest
+          route: GET /repos/:repository/releases/latest
+          repository: ${{ github.repository }}
       - run: "echo latest release: '${{ steps.get_latest_release.outputs.data }}'"
       # Create check run
-      - uses: ./
+      - name: "Create check run for ${{ github.sha }}"
+        uses: ./
         id: create_check_run
         with:
-          route: POST /repos/:owner/:repo/check-runs
+          route: POST /repos/:repository/check-runs
+          repository: ${{ github.repository }}
           mediaType: '{"previews": ["antiope"]}'
-          name: 'Test check run'
+          name: "Test check run"
           head_sha: ${{ github.sha }}
           output: '{"title":"Test check run title","summary": "A summary of the test check run", "images": [{"alt": "Test image", "image_url": "https://octodex.github.com/images/jetpacktocat.png"}]}'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      
+
       # Parse steps.create_check_run.outputs.data, since it is a string
       - id: parse_create_check_run
         uses: gr2m/get-json-paths-action@v1.x
         with:
           json: ${{ steps.create_check_run.outputs.data }}
           id: "id"
-          
+
       # Update check run to completed, succesful status
-      - uses: ./
+      - name: "Update check run ${{ steps.parse_create_check_run.outputs.id }} "
+        uses: ./
         id: update_check_run
         with:
-          route: PATCH /repos/:owner/:repo/check-runs/:check_run_id
+          route: PATCH /repos/:repository/check-runs/:check_run_id
+          repository: ${{ github.repository }}
           mediaType: '{"previews": ["antiope"]}'
           check_run_id: ${{ steps.parse_create_check_run.outputs.id }}
-          conclusion: 'success'
-          status: 'completed'
+          conclusion: "success"
+          status: "completed"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
