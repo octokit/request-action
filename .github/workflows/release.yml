@@ -17,6 +17,6 @@ jobs:
       - run: npx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GR2M_PAT_FOR_SEMANTIC_RELEASE }}
-      - run: "git push https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git HEAD:refs/heads/v1.x"
+      - run: "git push https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git HEAD:refs/heads/v2.x"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
