@@ -34,22 +34,15 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # Parse steps.create_check_run.outputs.data, since it is a string
-      - id: parse_create_check_run
-        uses: gr2m/get-json-paths-action@v1.x
-        with:
-          json: ${{ steps.create_check_run.outputs.data }}
-          id: "id"
-
       # Update check run to completed, succesful status
-      - name: "Update check run ${{ steps.parse_create_check_run.outputs.id }} "
+      - name: "Update check run ${{ fromJson(steps.create_check_run.outputs.data).id }} "
         uses: ./
         id: update_check_run
         with:
           route: PATCH /repos/:repository/check-runs/:check_run_id
           repository: ${{ github.repository }}
           mediaType: '{"previews": ["antiope"]}'
-          check_run_id: ${{ steps.parse_create_check_run.outputs.id }}
+          check_run_id: ${{ fromJson(steps.create_check_run.outputs.data).id }}
           conclusion: "success"
           status: "completed"
         env:

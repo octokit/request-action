@@ -56,13 +56,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # Parse steps.create_check_run.outputs.data, since it is a string
-      - id: parse_create_check_run
-        uses: gr2m/get-json-paths-action@v1.x
-        with:
-          json: ${{ steps.create_check_run.outputs.data }}
-          id: "id"
-
       # Update check run to completed, succesful status
       - uses: octokit/request-action@v2.x
         id: update_check_run
@@ -70,14 +63,12 @@ jobs:
           route: PATCH /repos/:repository/check-runs/:check_run_id
           repository: ${{ github.repository }}
           mediaType: '{"previews": ["antiope"]}'
-          check_run_id: ${{ steps.parse_create_check_run.outputs.id }}
+          check_run_id: ${{ fromJson(steps.create_check_run.outputs.data).id }}
           conclusion: "success"
           status: "completed"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
-
-To access deep values of `outputs.data`, check out [`gr2m/get-json-paths-action`](https://github.com/gr2m/get-json-paths-action).
 
 ## Inputs
 
@@ -90,9 +81,11 @@ To see additional debug logs, create a secret with the name: `ACTIONS_STEP_DEBUG
 ## How it works
 
 `octokit/request-action` is using [`@octokit/request`](https://github.com/octokit/request.js/) internally with the addition
-that requests are automatically authenticated using the `GITHUB_TOKEN` environment variable. It is required to prevent rate limiting, as all anonymous requsets from the same origin count against the same low rate.
+that requests are automatically authenticated using the `GITHUB_TOKEN` environment variable. It is required to prevent rate limiting, as all anonymous requests from the same origin count against the same low rate.
 
-The actions sets `data` output to the response data. Note that it is a string, you cannot access any keys of the response at this point. The action also sets `headers` (again, to a JSON string) and `status`.
+The actions sets `data` output to the response data. The action also sets the `headers` (again, to a JSON string) and `status` output properties.
+
+To access deep values of `outputs.data` and `outputs.headers`, check out the [fromJson](https://help.github.com/en/actions/reference/context-and-expression-syntax-for-github-actions#fromjson) function.
 
 ## License
 
