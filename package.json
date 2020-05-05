@@ -15,13 +15,13 @@
   "license": "MIT",
   "dependencies": {
     "@actions/core": "^1.1.1",
-    "@octokit/action": "^1.0.0",
+    "@octokit/action": "^2.4.0",
     "js-yaml": "^3.13.1"
   },
   "devDependencies": {
-    "@semantic-release/git": "^7.0.16",
-    "@zeit/ncc": "^0.20.5",
-    "semantic-release": "^15.13.24"
+    "@semantic-release/git": "^9.0.0",
+    "@zeit/ncc": "^0.22.1",
+    "semantic-release": "^17.0.7"
   },
   "release": {
     "plugins": [
