@@ -10,6 +10,7 @@ inputs:
   mediaType:
     description: "Custom media type in the Accept header"
     required: false
+    default: "{}"
 outputs:
   status:
     description: "Response status code."
