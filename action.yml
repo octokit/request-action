@@ -7,6 +7,9 @@ inputs:
   route:
     description: "HTTP Verb + path as shown on https://developer.github.com/v3/"
     required: true
+  mediaType:
+    description: "Custom media type in the Accept header"
+    required: false
 outputs:
   status:
     description: "Response status code."
