@@ -48,10 +48,17 @@ jobs:
         with:
           route: POST /repos/:repository/check-runs
           repository: ${{ github.repository }}
-          mediaType: '{"previews": ["antiope"]}'
+          mediaType: | # The | is significant!
+            previews: 
+              - antiope
           name: "Test check run"
           head_sha: ${{ github.sha }}
-          output: '{"title":"Test check run title","summary": "A summary of the test check run", "images": [{"alt": "Test image", "image_url": "https://octodex.github.com/images/jetpacktocat.png"}]}'
+          output: | # The | is significant!
+            title: Test check run title
+            summary: A summary of the test check run
+            images:
+              - alt: Test image
+                image_url: https://octodex.github.com/images/jetpacktocat.png
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -61,7 +68,9 @@ jobs:
         with:
           route: PATCH /repos/:repository/check-runs/:check_run_id
           repository: ${{ github.repository }}
-          mediaType: '{"previews": ["antiope"]}'
+          mediaType: | # The | is significant!
+            previews: 
+              - antiope
           check_run_id: ${{ fromJson(steps.create_check_run.outputs.data).id }}
           conclusion: "success"
           status: "completed"
