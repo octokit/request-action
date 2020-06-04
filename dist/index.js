@@ -3450,7 +3450,10 @@ const Endpoints = {
   issues: {
     addAssignees: ["POST /repos/{owner}/{repo}/issues/{issue_number}/assignees"],
     addLabels: ["POST /repos/{owner}/{repo}/issues/{issue_number}/labels"],
-    checkAssignee: ["GET /repos/{owner}/{repo}/assignees/{assignee}"],
+    checkAssignee: ["GET /repos/{owner}/{repo}/assignees/{assignee}", {}, {
+      renamed: ["issues", "checkUserCanBeAssigned"]
+    }],
+    checkUserCanBeAssigned: ["GET /repos/{owner}/{repo}/assignees/{assignee}"],
     create: ["POST /repos/{owner}/{repo}/issues"],
     createComment: ["POST /repos/{owner}/{repo}/issues/{issue_number}/comments"],
     createLabel: ["POST /repos/{owner}/{repo}/labels"],
@@ -3480,7 +3483,10 @@ const Endpoints = {
     listLabelsForMilestone: ["GET /repos/{owner}/{repo}/milestones/{milestone_number}/labels"],
     listLabelsForRepo: ["GET /repos/{owner}/{repo}/labels"],
     listLabelsOnIssue: ["GET /repos/{owner}/{repo}/issues/{issue_number}/labels"],
-    listMilestonesForRepo: ["GET /repos/{owner}/{repo}/milestones"],
+    listMilestones: ["GET /repos/{owner}/{repo}/milestones"],
+    listMilestonesForRepo: ["GET /repos/{owner}/{repo}/milestones", {}, {
+      renamed: ["issues", "listMilestones"]
+    }],
     lock: ["PUT /repos/{owner}/{repo}/issues/{issue_number}/lock"],
     removeAllLabels: ["DELETE /repos/{owner}/{repo}/issues/{issue_number}/labels"],
     removeAssignees: ["DELETE /repos/{owner}/{repo}/issues/{issue_number}/assignees"],
@@ -3488,10 +3494,10 @@ const Endpoints = {
     removeLabels: ["DELETE /repos/{owner}/{repo}/issues/{issue_number}/labels", {}, {
       renamed: ["issues", "removeAllLabels"]
     }],
-    replaceAllLabels: ["PUT /repos/{owner}/{repo}/issues/{issue_number}/labels"],
     replaceLabels: ["PUT /repos/{owner}/{repo}/issues/{issue_number}/labels", {}, {
       renamed: ["issues", "replaceAllLabels"]
     }],
+    setLabels: ["PUT /repos/{owner}/{repo}/issues/{issue_number}/labels"],
     unlock: ["DELETE /repos/{owner}/{repo}/issues/{issue_number}/lock"],
     update: ["PATCH /repos/{owner}/{repo}/issues/{issue_number}"],
     updateComment: ["PATCH /repos/{owner}/{repo}/issues/comments/{comment_id}"],
@@ -3537,7 +3543,10 @@ const Endpoints = {
       }
     }],
     getCommitAuthors: ["GET /repos/{owner}/{repo}/import/authors"],
-    getImportProgress: ["GET /repos/{owner}/{repo}/import"],
+    getImportProgress: ["GET /repos/{owner}/{repo}/import", {}, {
+      renamed: ["migrations", "getImportStatus"]
+    }],
+    getImportStatus: ["GET /repos/{owner}/{repo}/import"],
     getLargeFiles: ["GET /repos/{owner}/{repo}/import/large_files"],
     getStatusForAuthenticatedUser: ["GET /user/migrations/{migration_id}", {
       mediaType: {
@@ -4157,14 +4166,35 @@ const Endpoints = {
     users: ["GET /search/users"]
   },
   teams: {
-    addOrUpdateMembershipInOrg: ["PUT /orgs/{org}/teams/{team_slug}/memberships/{username}"],
+    addOrUpdateMembershipForUserInOrg: ["PUT /orgs/{org}/teams/{team_slug}/memberships/{username}"],
+    addOrUpdateMembershipInOrg: ["PUT /orgs/{org}/teams/{team_slug}/memberships/{username}", {}, {
+      renamed: ["teams", "addOrUpdateMembershipForUserInOrg"]
+    }],
     addOrUpdateProjectInOrg: ["PUT /orgs/{org}/teams/{team_slug}/projects/{project_id}", {
       mediaType: {
         previews: ["inertia"]
       }
+    }, {
+      renamed: ["teams", "addOrUpdateProjectPermissionsInOrg"]
     }],
-    addOrUpdateRepoInOrg: ["PUT /orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}"],
-    checkManagesRepoInOrg: ["GET /orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}"],
+    addOrUpdateProjectPermissionsInOrg: ["PUT /orgs/{org}/teams/{team_slug}/projects/{project_id}", {
+      mediaType: {
+        previews: ["inertia"]
+      }
+    }],
+    addOrUpdateRepoInOrg: ["PUT /orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}", {}, {
+      renamed: ["teams", "addOrUpdateRepoPermissionsInOrg"]
+    }],
+    addOrUpdateRepoPermissionsInOrg: ["PUT /orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}"],
+    checkManagesRepoInOrg: ["GET /orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}", {}, {
+      renamed: ["teams", "checkPermissionsForRepoInOrg"]
+    }],
+    checkPermissionsForProjectInOrg: ["GET /orgs/{org}/teams/{team_slug}/projects/{project_id}", {
+      mediaType: {
+        previews: ["inertia"]
+      }
+    }],
+    checkPermissionsForRepoInOrg: ["GET /orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}"],
     create: ["POST /orgs/{org}/teams"],
     createDiscussionCommentInOrg: ["POST /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments"],
     createDiscussionInOrg: ["POST /orgs/{org}/teams/{team_slug}/discussions"],
@@ -4174,7 +4204,10 @@ const Endpoints = {
     getByName: ["GET /orgs/{org}/teams/{team_slug}"],
     getDiscussionCommentInOrg: ["GET /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments/{comment_number}"],
     getDiscussionInOrg: ["GET /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}"],
-    getMembershipInOrg: ["GET /orgs/{org}/teams/{team_slug}/memberships/{username}"],
+    getMembershipForUserInOrg: ["GET /orgs/{org}/teams/{team_slug}/memberships/{username}"],
+    getMembershipInOrg: ["GET /orgs/{org}/teams/{team_slug}/memberships/{username}", {}, {
+      renamed: ["teams", "getMembershipForUserInOrg"]
+    }],
     list: ["GET /orgs/{org}/teams"],
     listChildInOrg: ["GET /orgs/{org}/teams/{team_slug}/teams"],
     listDiscussionCommentsInOrg: ["GET /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments"],
@@ -4188,13 +4221,18 @@ const Endpoints = {
       }
     }],
     listReposInOrg: ["GET /orgs/{org}/teams/{team_slug}/repos"],
-    removeMembershipInOrg: ["DELETE /orgs/{org}/teams/{team_slug}/memberships/{username}"],
+    removeMembershipForUserInOrg: ["DELETE /orgs/{org}/teams/{team_slug}/memberships/{username}"],
+    removeMembershipInOrg: ["DELETE /orgs/{org}/teams/{team_slug}/memberships/{username}", {}, {
+      renamed: ["teams", "removeMembershipForUserInOrg"]
+    }],
     removeProjectInOrg: ["DELETE /orgs/{org}/teams/{team_slug}/projects/{project_id}"],
     removeRepoInOrg: ["DELETE /orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}"],
     reviewProjectInOrg: ["GET /orgs/{org}/teams/{team_slug}/projects/{project_id}", {
       mediaType: {
         previews: ["inertia"]
       }
+    }, {
+      renamed: ["teams", "checkPermissionsForProjectInOrg"]
     }],
     updateDiscussionCommentInOrg: ["PATCH /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments/{comment_number}"],
     updateDiscussionInOrg: ["PATCH /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}"],
@@ -4239,7 +4277,7 @@ const Endpoints = {
   }
 };
 
-const VERSION = "3.12.2";
+const VERSION = "3.14.0";
 
 function endpointsToMethods(octokit, endpointsMap) {
   const newMethods = {};
@@ -10938,7 +10976,7 @@ var authAction = __webpack_require__(550);
 var pluginPaginateRest = __webpack_require__(299);
 var pluginRestEndpointMethods = __webpack_require__(311);
 
-const VERSION = "2.7.1";
+const VERSION = "2.7.2";
 
 const Octokit = core.Octokit.plugin(pluginPaginateRest.paginateRest, pluginRestEndpointMethods.restEndpointMethods).defaults({
   authStrategy: authAction.createActionAuth,
