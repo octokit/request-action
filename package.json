@@ -15,7 +15,7 @@
   "license": "MIT",
   "dependencies": {
     "@actions/core": "^1.2.4",
-    "@octokit/action": "^2.7.2",
+    "@octokit/action": "^2.8.0",
     "js-yaml": "^3.14.0"
   },
   "devDependencies": {
