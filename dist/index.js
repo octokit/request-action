@@ -1176,7 +1176,7 @@ function checkMode (stat, options) {
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const VERSION = "2.2.4";
+const VERSION = "2.3.0";
 
 /**
  * Some “list” response that can be paginated have a different response structure
@@ -2671,7 +2671,7 @@ const Endpoints = {
   }
 };
 
-const VERSION = "4.1.1";
+const VERSION = "4.1.2";
 
 function endpointsToMethods(octokit, endpointsMap) {
   const newMethods = {};
@@ -9409,7 +9409,7 @@ var authAction = __webpack_require__(550);
 var pluginPaginateRest = __webpack_require__(202);
 var pluginRestEndpointMethods = __webpack_require__(311);
 
-const VERSION = "3.0.4";
+const VERSION = "3.0.5";
 
 const Octokit = core.Octokit.plugin(pluginPaginateRest.paginateRest, pluginRestEndpointMethods.restEndpointMethods).defaults({
   authStrategy: authAction.createActionAuth,
