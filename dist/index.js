@@ -1176,7 +1176,7 @@ function checkMode (stat, options) {
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const VERSION = "2.3.2";
+const VERSION = "2.3.3";
 
 /**
  * Some “list” response that can be paginated have a different response structure
@@ -9349,12 +9349,17 @@ var authAction = __webpack_require__(550);
 var pluginPaginateRest = __webpack_require__(202);
 var pluginRestEndpointMethods = __webpack_require__(311);
 
-const VERSION = "3.0.7";
+const VERSION = "3.1.0";
 
 const Octokit = core.Octokit.plugin(pluginPaginateRest.paginateRest, pluginRestEndpointMethods.restEndpointMethods).defaults({
   authStrategy: authAction.createActionAuth,
+  baseUrl: getApiBaseUrl(),
   userAgent: `octokit-action.js/${VERSION}`
 });
+
+function getApiBaseUrl() {
+  return process.env["GITHUB_API_URL"] || "https://api.github.com";
+}
 
 exports.Octokit = Octokit;
 //# sourceMappingURL=index.js.map
