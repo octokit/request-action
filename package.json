@@ -14,7 +14,7 @@
   "author": "Gregor Martynus (https://twitter.com/gr2m)",
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "^1.2.5",
+    "@actions/core": "^1.2.6",
     "@octokit/action": "^3.1.1",
     "js-yaml": "^3.14.0"
   },
