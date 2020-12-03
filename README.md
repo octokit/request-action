@@ -22,7 +22,7 @@ jobs:
       - uses: octokit/request-action@v2.x
         id: get_latest_release
         with:
-          route: GET /repos/:repository/releases/latest
+          route: GET /repos/{repository}/releases/latest
           repository: ${{ github.repository }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -46,7 +46,7 @@ jobs:
       - uses: octokit/request-action@v2.x
         id: create_check_run
         with:
-          route: POST /repos/:repository/check-runs
+          route: POST /repos/{repository}/check-runs
           repository: ${{ github.repository }}
           mediaType: | # The | is significant!
             previews: 
@@ -66,7 +66,7 @@ jobs:
       - uses: octokit/request-action@v2.x
         id: update_check_run
         with:
-          route: PATCH /repos/:repository/check-runs/:check_run_id
+          route: PATCH /repos/{repository}/check-runs/{check_run_id}
           repository: ${{ github.repository }}
           mediaType: | # The | is significant!
             previews: 

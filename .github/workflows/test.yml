@@ -17,7 +17,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          route: GET /repos/:repository/releases/latest
+          route: GET /repos/{repository}/releases/latest
           repository: ${{ github.repository }}
       - run: "echo latest release: '${{ steps.get_latest_release.outputs.data }}'"
       # Create check run
@@ -25,7 +25,7 @@ jobs:
         uses: ./
         id: create_check_run
         with:
-          route: POST /repos/:repository/check-runs
+          route: POST /repos/{repository}/check-runs
           repository: ${{ github.repository }}
           mediaType: | # The | is significant!
             previews: 
@@ -46,7 +46,7 @@ jobs:
         uses: ./
         id: update_check_run
         with:
-          route: PATCH /repos/:repository/check-runs/:check_run_id
+          route: PATCH /repos/{repository}/check-runs/{check_run_id}
           repository: ${{ github.repository }}
           mediaType: | # The | is significant!
             previews: 
