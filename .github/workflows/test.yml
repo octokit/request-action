@@ -17,16 +17,18 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          route: GET /repos/{repository}/releases/latest
-          repository: ${{ github.repository }}
+          route: GET /repos/{owner}/{repo}/releases/latest
+          owner: octokit
+          repo: request-action
       - run: "echo latest release: '${{ steps.get_latest_release.outputs.data }}'"
       # Create check run
       - name: "Create check run for ${{ github.sha }}"
         uses: ./
         id: create_check_run
         with:
-          route: POST /repos/{repository}/check-runs
-          repository: ${{ github.repository }}
+          route: POST /repos/{owner}/{repo}/check-runs
+          owner: octokit
+          repo: request-action
           mediaType: | # The | is significant!
             previews: 
               - antiope
@@ -46,8 +48,9 @@ jobs:
         uses: ./
         id: update_check_run
         with:
-          route: PATCH /repos/{repository}/check-runs/{check_run_id}
-          repository: ${{ github.repository }}
+          route: PATCH /repos/{owner}/{repo}/check-runs/{check_run_id}
+          owner: octokit
+          repo: request-action
           mediaType: | # The | is significant!
             previews: 
               - antiope

@@ -22,8 +22,9 @@ jobs:
       - uses: octokit/request-action@v2.x
         id: get_latest_release
         with:
-          route: GET /repos/{repository}/releases/latest
-          repository: ${{ github.repository }}
+          route: GET /repos/{owner}/{repo}/releases/latest
+          owner: octokit
+          repo: request-action
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: "echo latest release: ${{ steps.get_latest_release.outputs.data }}"
@@ -46,8 +47,9 @@ jobs:
       - uses: octokit/request-action@v2.x
         id: create_check_run
         with:
-          route: POST /repos/{repository}/check-runs
-          repository: ${{ github.repository }}
+          route: POST /repos/{owner}/{repo}/check-runs
+          owner: octokit
+          repo: request-action
           mediaType: | # The | is significant!
             previews: 
               - antiope
@@ -66,8 +68,9 @@ jobs:
       - uses: octokit/request-action@v2.x
         id: update_check_run
         with:
-          route: PATCH /repos/{repository}/check-runs/{check_run_id}
-          repository: ${{ github.repository }}
+          route: PATCH /repos/{owner}/{repo}/check-runs/{check_run_id}
+          owner: octokit
+          repo: request-action
           mediaType: | # The | is significant!
             previews: 
               - antiope
