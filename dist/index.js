@@ -2522,6 +2522,11 @@ const Endpoints = {
     }],
     users: ["GET /search/users"]
   },
+  secretScanning: {
+    getAlert: ["GET /repos/{owner}/{repo}/secret-scanning/alerts/{alert_number}"],
+    listAlertsForRepo: ["GET /repos/{owner}/{repo}/secret-scanning/alerts"],
+    updateAlert: ["PATCH /repos/{owner}/{repo}/secret-scanning/alerts/{alert_number}"]
+  },
   teams: {
     addOrUpdateMembershipForUserInOrg: ["PUT /orgs/{org}/teams/{team_slug}/memberships/{username}"],
     addOrUpdateProjectPermissionsInOrg: ["PUT /orgs/{org}/teams/{team_slug}/projects/{project_id}", {
@@ -2602,7 +2607,7 @@ const Endpoints = {
   }
 };
 
-const VERSION = "4.3.1";
+const VERSION = "4.4.1";
 
 function endpointsToMethods(octokit, endpointsMap) {
   const newMethods = {};
@@ -9376,7 +9381,7 @@ var authAction = __webpack_require__(550);
 var pluginPaginateRest = __webpack_require__(299);
 var pluginRestEndpointMethods = __webpack_require__(311);
 
-const VERSION = "3.1.5";
+const VERSION = "3.1.6";
 
 const Octokit = core.Octokit.plugin(pluginPaginateRest.paginateRest, pluginRestEndpointMethods.restEndpointMethods).defaults({
   authStrategy: authAction.createActionAuth,
