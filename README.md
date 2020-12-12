@@ -9,7 +9,7 @@
 Minimal example
 
 ```yml
-Name: Log latest release
+name: Log latest release
 on:
   push:
     branches:
