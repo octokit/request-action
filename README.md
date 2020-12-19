@@ -64,7 +64,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # Update check run to completed, succesful status
+      # Update check run to completed, successful status
       - uses: octokit/request-action@v2.x
         id: update_check_run
         with:
