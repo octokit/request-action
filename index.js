@@ -25,7 +25,17 @@ async function main() {
     );
 
     const time = Date.now();
-    const { status, headers, data } = await octokit.request(route, parameters);
+
+    // workaround for https://github.com/octokit/request-action/issues/71
+    // un-encode "repo" in /repos/{repo} URL when "repo" parameter is set to ${{ github.repository }}
+    const options = octokit.request.endpoint(route, parameters);
+    const { status, headers, data } = await octokit.request({
+      ...options,
+      url: options.url.replace(
+        /\/repos\/([^/]+)/,
+        (_, match) => "/repos/" + decodeURIComponent(match)
+      ),
+    });
 
     core.info(`< ${status} ${Date.now() - time}ms`);
 
