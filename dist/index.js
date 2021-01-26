@@ -380,16 +380,28 @@ async function main() {
       core.info(`> ${name}: ${value}`);
     }
 
+    // workaround for https://github.com/octokit/request-action/issues/71
+    // un-encode "repo" in /repos/{repo} URL when "repo" parameter is set to ${{ github.repository }}
+    const { url, body, ...options } = octokit.request.endpoint(
+      route,
+      parameters
+    );
+    const requestOptions = {
+      ...options,
+      data: body,
+      url: url.replace(
+        /\/repos\/([^/]+)/,
+        (_, match) => "/repos/" + decodeURIComponent(match)
+      ),
+    };
+
     core.debug(`route: ${inspect(route)}`);
     core.debug(`parameters: ${inspect(parameters)}`);
-    core.debug(
-      `parsed request options: ${inspect(
-        octokit.request.endpoint(route, parameters)
-      )}`
-    );
+    core.debug(`parsed request options: ${inspect(requestOptions)}`);
 
     const time = Date.now();
-    const { status, headers, data } = await octokit.request(route, parameters);
+
+    const { status, headers, data } = await octokit.request(requestOptions);
 
     core.info(`< ${status} ${Date.now() - time}ms`);
 
