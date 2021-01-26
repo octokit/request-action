@@ -21,6 +21,7 @@ jobs:
           owner: octokit
           repo: request-action
       - run: "echo latest release: '${{ steps.get_latest_release.outputs.data }}'"
+
       # Create check run
       - name: "Create check run for ${{ github.sha }}"
         uses: ./
@@ -57,5 +58,14 @@ jobs:
           check_run_id: ${{ fromJson(steps.create_check_run.outputs.data).id }}
           conclusion: "success"
           status: "completed"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # See https://github.com/octokit/request-action/issues/71
+      - name: "Un-encode {repo} URL parameter when it's set to github.repository"
+        uses: ./
+        with:
+          route: GET /repos/{repository}
+          repository: ${{ github.repository }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
