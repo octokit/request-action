@@ -50,9 +50,6 @@ jobs:
           route: POST /repos/{owner}/{repo}/check-runs
           owner: octokit
           repo: request-action
-          mediaType: | # The | is significant!
-            previews: 
-              - antiope
           name: "Test check run"
           head_sha: ${{ github.sha }}
           output: | # The | is significant!
@@ -71,9 +68,6 @@ jobs:
           route: PATCH /repos/{owner}/{repo}/check-runs/{check_run_id}
           owner: octokit
           repo: request-action
-          mediaType: | # The | is significant!
-            previews: 
-              - antiope
           check_run_id: ${{ fromJson(steps.create_check_run.outputs.data).id }}
           conclusion: "success"
           status: "completed"
