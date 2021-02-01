@@ -20,7 +20,7 @@ jobs:
           route: GET /repos/{owner}/{repo}/releases/latest
           owner: octokit
           repo: request-action
-      - run: "echo latest release: '${{ steps.get_latest_release.outputs.data }}'"
+      - run: "echo latest release: '${{ fromJson(steps.get_latest_release.outputs.data).tag_name }}'"
 
       # Create check run
       - name: "Create check run for ${{ github.sha }}"
