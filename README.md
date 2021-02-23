@@ -79,6 +79,23 @@ jobs:
 
 To use request body parameters, simply pass in an `input` matching the parameter name. See previous examples.
 
+Due to how request parameters are processed, it may be necessary in some cases to first encode the value as either JSON or a block scalar:
+
+```yml
+env:
+  REQUEST_BODY: |
+    Multi-line string with *special* characters:
+    - "'`
+with:
+  # As JSON
+  body: ${{ toJSON(env.REQUEST_BODY) }}
+  
+  # As block scalar
+  body: |
+    |
+    ${{ env.REQUEST_BODY }}
+```
+
 ## Debugging
 
 To see additional debug logs, create a secret with the name: `ACTIONS_STEP_DEBUG` and value `true`.
