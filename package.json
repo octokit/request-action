@@ -7,7 +7,7 @@
   "scripts": {
     "build": "ncc build index.js -o dist"
   },
-  "repository": "https://github.com/octokit/request-action",
+  "repository": "github:octokit/request-action",
   "keywords": [
     "github-action"
   ],
