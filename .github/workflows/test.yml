@@ -55,8 +55,34 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      # handle error
+      - name: "Handle error"
+        uses: ./
+        id: get_release
+        with:
+          route: GET /repos/{owner}/{repo}/releases/v0.9.9
+          owner: octokit
+          repo: request-action
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: "echo Release cound not be found. Request failed with status ${{ steps.get_release.outputs.status }}"
+        if: ${{ failure() }}
+
+  issues:
+    name: "[TEST] Issues"
+    runs-on: ubuntu-latest
+    steps:
       # See https://github.com/octokit/request-action/issues/71
-      - name: "Un-encode {repo} URL parameter when it's set to github.repository"
+      - name: "Un-encode {repo} URL parameter when it's set to github.repository (#71)"
+        uses: ./
+        with:
+          route: GET /repos/{repository}
+          repository: ${{ github.repository }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # See https://github.com/octokit/request-action/issues/71
+      - name: "Un-encode {repo} URL parameter when it's set to github.repository (#71)"
         uses: ./
         with:
           route: GET /repos/{repository}
