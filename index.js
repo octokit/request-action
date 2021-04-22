@@ -7,6 +7,8 @@ const { Octokit } = require("@octokit/action");
 main();
 
 async function main() {
+  const time = Date.now();
+
   try {
     const octokit = new Octokit();
     const { route, ...parameters } = getAllInputs();
@@ -35,8 +37,6 @@ async function main() {
     core.debug(`parameters: ${inspect(parameters)}`);
     core.debug(`parsed request options: ${inspect(requestOptions)}`);
 
-    const time = Date.now();
-
     const { status, headers, data } = await octokit.request(requestOptions);
 
     core.info(`< ${status} ${Date.now() - time}ms`);
@@ -45,6 +45,11 @@ async function main() {
     core.setOutput("headers", JSON.stringify(headers, null, 2));
     core.setOutput("data", JSON.stringify(data, null, 2));
   } catch (error) {
+    if (error.status) {
+      core.info(`< ${error.status} ${Date.now() - time}ms`);
+    }
+
+    core.setOutput("status", error.status);
     core.debug(inspect(error));
     core.setFailed(error.message);
   }
