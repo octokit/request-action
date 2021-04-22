@@ -72,14 +72,12 @@ jobs:
     name: "[TEST] Issues"
     runs-on: ubuntu-latest
     steps:
-      # See https://github.com/octokit/request-action/issues/71
-      - name: "Un-encode {repo} URL parameter when it's set to github.repository (#71)"
-        uses: ./
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@v2
         with:
-          route: GET /repos/{repository}
-          repository: ${{ github.repository }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          node-version: "12.x"
+      - run: "npm ci"
+      - run: "npm run build"
 
       # See https://github.com/octokit/request-action/issues/71
       - name: "Un-encode {repo} URL parameter when it's set to github.repository (#71)"
