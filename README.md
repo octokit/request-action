@@ -75,6 +75,32 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
+Handle errors
+
+```
+name: Log latest release
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  handleError:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: octokit/request-action@v2.x
+        id: get_release
+        with:
+          route: GET /repos/{owner}/{repo}/releases/v0.9.9
+          owner: octokit
+          repo: request-action
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: "Release found: ${{ steps.get_release.outputs.data }}"
+      - name: "Release cound not be found. Request failed with status ${{ steps.get_release.outputs.status }}
+        if: ${{ failure() }}
+```
+
 ## Inputs
 
 To use request body parameters, simply pass in an `input` matching the parameter name. See previous examples.
@@ -89,7 +115,7 @@ env:
 with:
   # As JSON
   body: ${{ toJSON(env.REQUEST_BODY) }}
-  
+
   # As block scalar
   body: |
     |
