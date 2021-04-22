@@ -57,6 +57,7 @@ jobs:
 
       # handle error
       - name: "Handle error"
+        continue-on-error: true
         uses: ./
         id: get_release
         with:
