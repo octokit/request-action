@@ -9,6 +9,7 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: "12.x"
+          cache: npm
       - run: "npm ci"
       - run: "npm run build"
       - name: "Get latest release of ${{ github.repository }}"
@@ -77,6 +78,7 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: "12.x"
+          cache: npm
       - run: "npm ci"
       - run: "npm run build"
 
