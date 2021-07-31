@@ -77,7 +77,7 @@ jobs:
 
 Handle errors
 
-```
+```yml
 name: Log latest release
 on:
   push:
