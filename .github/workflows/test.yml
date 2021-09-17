@@ -1,4 +1,5 @@
-on: [push]
+"on":
+  - push
 name: Test
 jobs:
   readmeExample:
@@ -8,11 +9,11 @@ jobs:
       - uses: actions/checkout@master
       - uses: actions/setup-node@v2
         with:
-          node-version: "12.x"
+          node-version: 16
           cache: npm
-      - run: "npm ci"
-      - run: "npm run build"
-      - name: "Get latest release of ${{ github.repository }}"
+      - run: npm ci
+      - run: npm run build
+      - name: Get latest release of ${{ github.repository }}
         uses: ./
         id: get_latest_release
         env:
@@ -21,19 +22,19 @@ jobs:
           route: GET /repos/{owner}/{repo}/releases/latest
           owner: octokit
           repo: request-action
-      - run: "echo latest release: '${{ fromJson(steps.get_latest_release.outputs.data).tag_name }}'"
-
-      # Create check run
-      - name: "Create check run for ${{ github.sha }}"
+      - run: >-
+          echo latest release: '${{
+          fromJson(steps.get_latest_release.outputs.data).tag_name }}'
+      - name: Create check run for ${{ github.sha }}
         uses: ./
         id: create_check_run
         with:
           route: POST /repos/{owner}/{repo}/check-runs
           owner: octokit
           repo: request-action
-          name: "Test check run"
+          name: Test check run
           head_sha: ${{ github.sha }}
-          output: | # The | is significant!
+          output: |
             title: Test check run title
             summary: A summary of the test check run
             images:
@@ -41,9 +42,9 @@ jobs:
                 image_url: https://octodex.github.com/images/jetpacktocat.png
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      # Update check run to completed, succesful status
-      - name: "Update check run ${{ fromJson(steps.create_check_run.outputs.data).id }} "
+      - name: >-
+          Update check run ${{ fromJson(steps.create_check_run.outputs.data).id
+          }} 
         uses: ./
         id: update_check_run
         with:
@@ -51,13 +52,11 @@ jobs:
           owner: octokit
           repo: request-action
           check_run_id: ${{ fromJson(steps.create_check_run.outputs.data).id }}
-          conclusion: "success"
-          status: "completed"
+          conclusion: success
+          status: completed
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      # handle error
-      - name: "Handle error"
+      - name: Handle error
         continue-on-error: true
         uses: ./
         id: get_release
@@ -67,9 +66,10 @@ jobs:
           repo: request-action
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: "echo Release cound not be found. Request failed with status ${{ steps.get_release.outputs.status }}"
+      - run: >-
+          echo Release cound not be found. Request failed with status ${{
+          steps.get_release.outputs.status }}
         if: ${{ failure() }}
-
   issues:
     name: "[TEST] Issues"
     runs-on: ubuntu-latest
@@ -77,13 +77,13 @@ jobs:
       - uses: actions/checkout@master
       - uses: actions/setup-node@v2
         with:
-          node-version: "12.x"
+          node-version: 16
           cache: npm
-      - run: "npm ci"
-      - run: "npm run build"
-
-      # See https://github.com/octokit/request-action/issues/71
-      - name: "Un-encode {repo} URL parameter when it's set to github.repository (#71)"
+      - run: npm ci
+      - run: npm run build
+      - name: >-
+          Un-encode {repo} URL parameter when it's set to github.repository
+          (#71)
         uses: ./
         with:
           route: GET /repos/{repository}
