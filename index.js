@@ -43,7 +43,10 @@ async function main() {
 
     core.setOutput("status", status);
     core.setOutput("headers", JSON.stringify(headers, null, 2));
-    core.setOutput("data", JSON.stringify(data, null, 2));
+    core.setOutput(
+      "data",
+      typeof data === "string" ? data : JSON.stringify(data, null, 2)
+    );
   } catch (error) {
     if (error.status) {
       core.info(`< ${error.status} ${Date.now() - time}ms`);
