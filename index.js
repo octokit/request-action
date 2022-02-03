@@ -45,7 +45,7 @@ async function main() {
     core.setOutput("headers", JSON.stringify(headers, null, 2));
     core.setOutput(
       "data",
-      typeof data === "string" ? data : JSON.stringify(data, null, 2)
+      typeof data === "object" ? JSON.stringify(data, null, 2) : data
     );
   } catch (error) {
     if (error.status) {
