@@ -97,7 +97,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: "Release found: ${{ steps.get_release.outputs.data }}"
-      - name: "Release cound not be found. Request failed with status ${{ steps.get_release.outputs.status }}"
+      - name: "Release could not be found. Request failed with status ${{ steps.get_release.outputs.status }}"
         if: ${{ failure() }}
 ```
 
