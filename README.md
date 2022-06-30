@@ -143,7 +143,7 @@ The GitHub Actions runners are currently showing warnings when using this action
 ##[warning]Unexpected input 'repository', valid inputs are ['route', 'mediaType']
 ```
 
-The reason for this warning is because the `repository` key is not listed as a possible value in `actions.yml`. This warning will appear for any key used under the `with` except `route` and `mediaType`. Due to the flexible nature of the required inputs depending on the `route`, not all of the possible paramters can be listed in `actions.yml`, so you will see this warning under normal usage of the action. As long as you see a 200 response code at the bottom of the output, everything should have worked properly and you can ignore the warnings. The response code will appear at the bottom of the output from the action and looks like:
+The reason for this warning is because the `repository` key is not listed as a possible value in `actions.yml`. This warning will appear for any key used under the `with` except `route` and `mediaType`. Due to the flexible nature of the required inputs depending on the `route`, not all of the possible parameters can be listed in `actions.yml`, so you will see this warning under normal usage of the action. As long as you see a 200 response code at the bottom of the output, everything should have worked properly and you can ignore the warnings. The response code will appear at the bottom of the output from the action and looks like:
 
 ```
 < 200 451ms
