@@ -16,7 +16,7 @@ jobs:
       - run: npm ci
       - run: npm run build
       - run: rm .gitignore
-      - run: npx semantic-release
+      - run: npx semantic-release --debug
         env:
           GITHUB_TOKEN: ${{ secrets.OCTOKITBOT_PAT }}
       - run: >-
