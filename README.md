@@ -154,3 +154,4 @@ See [Issue #26](https://github.com/octokit/request-action/issues/26) for more in
 ## License
 
 [MIT](LICENSE)
+
