@@ -5,7 +5,9 @@
   "description": "A GitHub Action to send arbitrary requests to GitHub's REST API",
   "main": "dist/index.js",
   "scripts": {
-    "build": "ncc build index.js -o dist"
+    "build": "ncc build index.js -o dist",
+    "lint": "prettier --check *.js **/*.{md,yml} package.json",
+    "lint:fix": "prettier --write *.js **/*.{md,yml} package.json"
   },
   "repository": "github:octokit/request-action",
   "keywords": [
@@ -21,6 +23,7 @@
   "devDependencies": {
     "@semantic-release/git": "^10.0.0",
     "@zeit/ncc": "^0.22.3",
+    "prettier": "^2.7.1",
     "semantic-release": "^19.0.0"
   },
   "release": {
