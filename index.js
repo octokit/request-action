@@ -11,7 +11,7 @@ async function main() {
 
   try {
     const octokit = new Octokit();
-    const { route, ...parameters } = getAllInputs();
+    const { route, mediaType, ...parameters } = getAllInputs();
 
     core.info(route);
     for (const [name, value] of Object.entries(parameters)) {
@@ -20,10 +20,10 @@ async function main() {
 
     // workaround for https://github.com/octokit/request-action/issues/71
     // un-encode "repo" in /repos/{repo} URL when "repo" parameter is set to ${{ github.repository }}
-    const { url, body, ...options } = octokit.request.endpoint(
-      route,
-      parameters
-    );
+    const { url, body, ...options } = octokit.request.endpoint(route, {
+      ...parameters,
+      mediaType: { format: mediaType },
+    });
     const requestOptions = {
       ...options,
       data: body,
