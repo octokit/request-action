@@ -102,3 +102,23 @@ jobs:
           repository: ${{ github.repository }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  media_type:
+    name: "[TEST] Media Type"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3
+      - uses: actions/setup-node@2fddd8803e2f5c9604345a0b591c3020ee971a93 # tag=v3
+        with:
+          node-version: 16
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Make a request with a custom media type
+        uses: ./
+        with:
+          route: GET /repos/{owner}/{repo}/contents/README.md
+          owner: octokit
+          repo: request-action
+          mediaType: raw
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
