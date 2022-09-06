@@ -60,7 +60,17 @@ jobs:
                 image_url: https://octodex.github.com/images/jetpacktocat.png
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+      # Download file
+      - uses: octokit/request-action@v2.x
+        id: download_file
+        with:
+          route: GET /repos/OWNER/REPO/contents/README.md
+          owner: octokit
+          repo: request-action
+          mediaType: | # The | is significant!
+            format: raw
+         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       # Update check run to completed, successful status
       - uses: octokit/request-action@v2.x
         id: update_check_run
