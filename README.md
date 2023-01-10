@@ -13,7 +13,7 @@ name: Log latest release
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   logLatestRelease:
@@ -37,7 +37,7 @@ name: Check run
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   create-file:
@@ -92,7 +92,7 @@ name: Log latest release
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   handleError:
