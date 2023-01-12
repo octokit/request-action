@@ -27,7 +27,7 @@ jobs:
           repo: request-action
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: "echo latest release: ${{ steps.get_latest_release.outputs.data }}"
+      - run: "echo latest release: '${{ steps.get_latest_release.outputs.data }}'"
 ```
 
 More complex examples involving `POST`, setting custom media types, and parsing output data
@@ -106,8 +106,8 @@ jobs:
           repo: request-action
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: "echo Release found: ${{ steps.get_release.outputs.data }}"
-      - run: "echo Release could not be found. Request failed with status ${{ steps.get_release.outputs.status }}"
+      - run: "echo Release found: '${{ steps.get_release.outputs.data }}'"
+      - run: "echo Release could not be found. Request failed with status '${{ steps.get_release.outputs.status }}'"
         if: ${{ failure() }}
 ```
 
