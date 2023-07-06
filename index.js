@@ -22,14 +22,14 @@ async function main() {
     // un-encode "repo" in /repos/{repo} URL when "repo" parameter is set to ${{ github.repository }}
     const { url, body, ...options } = octokit.request.endpoint(
       route,
-      parameters
+      parameters,
     );
     const requestOptions = {
       ...options,
       data: body,
       url: url.replace(
         /\/repos\/([^/]+)/,
-        (_, match) => "/repos/" + decodeURIComponent(match)
+        (_, match) => "/repos/" + decodeURIComponent(match),
       ),
     };
 
@@ -45,7 +45,7 @@ async function main() {
     core.setOutput("headers", JSON.stringify(headers, null, 2));
     core.setOutput(
       "data",
-      typeof data === "object" ? JSON.stringify(data, null, 2) : data
+      typeof data === "object" ? JSON.stringify(data, null, 2) : data,
     );
   } catch (error) {
     if (error.status) {
