@@ -24,7 +24,7 @@
     "@semantic-release/git": "^10.0.0",
     "@vercel/ncc": "^0.38.0",
     "prettier": "^3.0.0",
-    "semantic-release": "^21.0.0"
+    "semantic-release": "^22.0.0"
   },
   "release": {
     "branches": [
