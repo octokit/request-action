@@ -5,7 +5,7 @@
   "description": "A GitHub Action to send arbitrary requests to GitHub's REST API",
   "main": "dist/index.js",
   "scripts": {
-    "build": "ncc build index.js -o dist",
+    "build": "esbuild --bundle --platform=node --target=node20 --outfile=dist/index.js index.js",
     "lint": "prettier --check *.js **/*.{md,yml} package.json",
     "lint:fix": "prettier --write *.js **/*.{md,yml} package.json"
   },
@@ -16,13 +16,13 @@
   "author": "Gregor Martynus (https://twitter.com/gr2m)",
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "^1.2.6",
-    "@octokit/action": "^6.0.5",
-    "js-yaml": "^4.0.0"
+    "@actions/core": "^1.10.1",
+    "@octokit/action": "^6.0.7",
+    "js-yaml": "^4.1.0"
   },
   "devDependencies": {
     "@semantic-release/git": "^10.0.0",
-    "@vercel/ncc": "^0.38.0",
+    "esbuild": "^0.19.10",
     "prettier": "^3.0.0",
     "semantic-release": "^22.0.0"
   },
