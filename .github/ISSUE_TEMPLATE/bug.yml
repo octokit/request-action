@@ -20,7 +20,7 @@ body:
     attributes:
       label: Versions
       description: What versions of the relevant software are you running?
-      placeholder: Octokit.js v2.0.10, Node v16.18.0
+      placeholder: Octokit.js v2.0.10, Node v20.11.0
     validations:
       required: true
   - type: textarea
