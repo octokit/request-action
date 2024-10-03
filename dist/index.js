@@ -56584,7 +56584,7 @@ module.exports = parseParams
 
 /***/ }),
 
-/***/ 390:
+/***/ 3998:
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __nccwpck_require__) => {
 
 "use strict";
@@ -56598,7 +56598,7 @@ __nccwpck_require__.d(__webpack_exports__, {
   "getProxyAgent": () => (/* binding */ getProxyAgent)
 });
 
-;// CONCATENATED MODULE: ./node_modules/@octokit/action/node_modules/universal-user-agent/index.js
+;// CONCATENATED MODULE: ./node_modules/universal-user-agent/index.js
 function getUserAgent() {
   if (typeof navigator === "object" && "userAgent" in navigator) {
     return navigator.userAgent;
@@ -56613,7 +56613,7 @@ function getUserAgent() {
   return "<environment undetectable>";
 }
 
-;// CONCATENATED MODULE: ./node_modules/@octokit/action/node_modules/before-after-hook/lib/register.js
+;// CONCATENATED MODULE: ./node_modules/before-after-hook/lib/register.js
 // @ts-check
 
 function register(state, name, method, options) {
@@ -56642,7 +56642,7 @@ function register(state, name, method, options) {
   });
 }
 
-;// CONCATENATED MODULE: ./node_modules/@octokit/action/node_modules/before-after-hook/lib/add.js
+;// CONCATENATED MODULE: ./node_modules/before-after-hook/lib/add.js
 // @ts-check
 
 function addHook(state, kind, name, hook) {
@@ -56690,7 +56690,7 @@ function addHook(state, kind, name, hook) {
   });
 }
 
-;// CONCATENATED MODULE: ./node_modules/@octokit/action/node_modules/before-after-hook/lib/remove.js
+;// CONCATENATED MODULE: ./node_modules/before-after-hook/lib/remove.js
 // @ts-check
 
 function removeHook(state, name, method) {
@@ -56711,7 +56711,7 @@ function removeHook(state, name, method) {
   state.registry[name].splice(index, 1);
 }
 
-;// CONCATENATED MODULE: ./node_modules/@octokit/action/node_modules/before-after-hook/index.js
+;// CONCATENATED MODULE: ./node_modules/before-after-hook/index.js
 // @ts-check
 
 
@@ -56758,7 +56758,7 @@ function Collection() {
 
 /* harmony default export */ const before_after_hook = ({ Singular, Collection });
 
-;// CONCATENATED MODULE: ./node_modules/@octokit/action/node_modules/@octokit/endpoint/dist-bundle/index.js
+;// CONCATENATED MODULE: ./node_modules/@octokit/endpoint/dist-bundle/index.js
 // pkg/dist-src/defaults.js
 
 
@@ -57109,7 +57109,7 @@ function withDefaults(oldDefaults, newDefaults) {
 var endpoint = withDefaults(null, DEFAULTS);
 
 
-;// CONCATENATED MODULE: ./node_modules/@octokit/action/node_modules/@octokit/request-error/dist-src/index.js
+;// CONCATENATED MODULE: ./node_modules/@octokit/request-error/dist-src/index.js
 class RequestError extends Error {
   name;
   /**
@@ -57149,7 +57149,7 @@ class RequestError extends Error {
 }
 
 
-;// CONCATENATED MODULE: ./node_modules/@octokit/action/node_modules/@octokit/request/dist-bundle/index.js
+;// CONCATENATED MODULE: ./node_modules/@octokit/request/dist-bundle/index.js
 // pkg/dist-src/index.js
 
 
@@ -57353,7 +57353,7 @@ var request = dist_bundle_withDefaults(endpoint, {
 });
 
 
-;// CONCATENATED MODULE: ./node_modules/@octokit/action/node_modules/@octokit/graphql/dist-bundle/index.js
+;// CONCATENATED MODULE: ./node_modules/@octokit/graphql/dist-bundle/index.js
 // pkg/dist-src/index.js
 
 
@@ -57480,7 +57480,7 @@ function withCustomRequest(customRequest) {
 }
 
 
-;// CONCATENATED MODULE: ./node_modules/@octokit/action/node_modules/@octokit/auth-token/dist-bundle/index.js
+;// CONCATENATED MODULE: ./node_modules/@octokit/auth-token/dist-bundle/index.js
 // pkg/dist-src/auth.js
 var REGEX_IS_INSTALLATION_LEGACY = /^v1\./;
 var REGEX_IS_INSTALLATION = /^ghs_/;
@@ -57532,11 +57532,11 @@ var createTokenAuth = function createTokenAuth2(token) {
 };
 
 
-;// CONCATENATED MODULE: ./node_modules/@octokit/action/node_modules/@octokit/core/dist-src/version.js
+;// CONCATENATED MODULE: ./node_modules/@octokit/core/dist-src/version.js
 const version_VERSION = "6.1.2";
 
 
-;// CONCATENATED MODULE: ./node_modules/@octokit/action/node_modules/@octokit/core/dist-src/index.js
+;// CONCATENATED MODULE: ./node_modules/@octokit/core/dist-src/index.js
 
 
 
@@ -57670,58 +57670,6 @@ class Octokit {
 }
 
 
-;// CONCATENATED MODULE: ./node_modules/@octokit/auth-action/node_modules/@octokit/auth-token/dist-bundle/index.js
-// pkg/dist-src/auth.js
-var dist_bundle_REGEX_IS_INSTALLATION_LEGACY = /^v1\./;
-var dist_bundle_REGEX_IS_INSTALLATION = /^ghs_/;
-var dist_bundle_REGEX_IS_USER_TO_SERVER = /^ghu_/;
-async function dist_bundle_auth(token) {
-  const isApp = token.split(/\./).length === 3;
-  const isInstallation = dist_bundle_REGEX_IS_INSTALLATION_LEGACY.test(token) || dist_bundle_REGEX_IS_INSTALLATION.test(token);
-  const isUserToServer = dist_bundle_REGEX_IS_USER_TO_SERVER.test(token);
-  const tokenType = isApp ? "app" : isInstallation ? "installation" : isUserToServer ? "user-to-server" : "oauth";
-  return {
-    type: "token",
-    token,
-    tokenType
-  };
-}
-
-// pkg/dist-src/with-authorization-prefix.js
-function dist_bundle_withAuthorizationPrefix(token) {
-  if (token.split(/\./).length === 3) {
-    return `bearer ${token}`;
-  }
-  return `token ${token}`;
-}
-
-// pkg/dist-src/hook.js
-async function dist_bundle_hook(token, request, route, parameters) {
-  const endpoint = request.endpoint.merge(
-    route,
-    parameters
-  );
-  endpoint.headers.authorization = dist_bundle_withAuthorizationPrefix(token);
-  return request(endpoint);
-}
-
-// pkg/dist-src/index.js
-var dist_bundle_createTokenAuth = function createTokenAuth2(token) {
-  if (!token) {
-    throw new Error("[@octokit/auth-token] No token passed to createTokenAuth");
-  }
-  if (typeof token !== "string") {
-    throw new Error(
-      "[@octokit/auth-token] Token passed to createTokenAuth is not a string"
-    );
-  }
-  token = token.replace(/^(token|bearer) +/i, "");
-  return Object.assign(dist_bundle_auth.bind(null, token), {
-    hook: dist_bundle_hook.bind(null, token)
-  });
-};
-
-
 ;// CONCATENATED MODULE: ./node_modules/@octokit/auth-action/dist-src/index.js
 
 const createActionAuth = function createActionAuth2() {
@@ -57746,11 +57694,11 @@ const createActionAuth = function createActionAuth2() {
     );
   }
   const token = definitions.pop();
-  return dist_bundle_createTokenAuth(token);
+  return createTokenAuth(token);
 };
 
 
-;// CONCATENATED MODULE: ./node_modules/@octokit/action/node_modules/@octokit/plugin-paginate-rest/dist-bundle/index.js
+;// CONCATENATED MODULE: ./node_modules/@octokit/plugin-paginate-rest/dist-bundle/index.js
 // pkg/dist-src/version.js
 var plugin_paginate_rest_dist_bundle_VERSION = "0.0.0-development";
 
@@ -60342,7 +60290,7 @@ const { inspect } = __nccwpck_require__(3837);
 const yaml = __nccwpck_require__(1917);
 
 const core = __nccwpck_require__(2186);
-const { Octokit } = __nccwpck_require__(390);
+const { Octokit } = __nccwpck_require__(3998);
 
 main();
 
