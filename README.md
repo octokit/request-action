@@ -186,7 +186,7 @@ Example:
         echo ACTIONS_RUNNER_TOKEN=$ACTIONS_RUNNER_TOKEN >> $GITHUB_ENV    
   ```
 
-  ![alt text](image.png)
+  ![Add Mask](add-mask.png)
 
 ## License
 
