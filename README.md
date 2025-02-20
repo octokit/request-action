@@ -147,7 +147,7 @@ To access deep values of `outputs.data` and `outputs.headers`, check out the [fr
 
 ## Warnings
 
-The GitHub Actions runners are currently showing warnings when using this action that look like:
+#### 1. The GitHub Actions runners are currently showing warnings when using this action that look like:
 
 ```
 ##[warning]Unexpected input 'repository', valid inputs are ['route', 'mediaType']
@@ -160,6 +160,33 @@ The reason for this warning is because the `repository` key is not listed as a p
 ```
 
 See [Issue #26](https://github.com/octokit/request-action/issues/26) for more information.
+
+#### 2. Using the add-mask workflow command exposes the secret to the CI logs. 
+
+This issue is documented in [actions/runner#475](https://github.com/actions/runner/issues/475). Please be cautious when using add-mask with sensitive tokens.
+
+Example:
+
+```yaml
+   - name: Generate Actions Runner token
+      uses: octokit/request-action@v2.x
+      id: generate-actions-runner-token
+      with:
+        route: POST /repos/{owner}/{repo}/actions/runners/registration-token
+        owner: ${{ env.ACTIONS_RUNNER_ORG }}
+        repo: ${{ env.ACTIONS_RUNNER_REPO }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GH_API_PAT }}
+
+   - name: Set and mask Actions Runner token for next steps
+     run: |
+        # We need to mask the token first before setting it to an env variable
+        echo "::add-mask::${{ fromJson(steps.generate-actions-runner-token.outputs.data).token }}"
+        ACTIONS_RUNNER_TOKEN=${{ fromJson(steps.generate-actions-runner-token.outputs.data).token }}
+        echo ACTIONS_RUNNER_TOKEN=$ACTIONS_RUNNER_TOKEN >> $GITHUB_ENV    
+  ```
+
+  ![alt text](image.png)
 
 ## License
 
