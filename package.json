@@ -48,5 +48,8 @@
       ],
       "@semantic-release/github"
     ]
+  },
+  "publishConfig": {
+    "provenance": true
   }
 }
