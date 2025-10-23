@@ -30,6 +30,21 @@ jobs:
       - run: "echo latest release: '${{ steps.get_latest_release.outputs.data }}'"
 ```
 
+
+> ⚠️ **Important Note**
+>
+> When using this action to call endpoints such as  
+> `POST /repos/{owner}/{repo}/actions/runners/registration-token`,  
+> the returned token may appear in your GitHub Actions logs.
+>
+> To protect secrets, manually mask the token in subsequent steps using:
+>
+> ```bash
+> echo "::add-mask::${{ fromJson(steps.<step-id>.outputs.data).token }}"
+> ```
+>
+> This ensures sensitive data is not exposed in your workflow logs.
+
 More complex examples involving `POST`, setting custom media types, and parsing output data
 
 ```yml
