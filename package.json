@@ -18,7 +18,7 @@
   "dependencies": {
     "@actions/core": "^1.2.6",
     "@octokit/action": "^7.0.0",
-    "js-yaml": "^4.0.0"
+    "js-yaml": "^4.1.1"
   },
   "devDependencies": {
     "@semantic-release/git": "^10.0.0",
