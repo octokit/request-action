@@ -3,9 +3,10 @@
   "private": true,
   "version": "0.0.0-development",
   "description": "A GitHub Action to send arbitrary requests to GitHub's REST API",
+  "type": "module",
   "main": "dist/index.js",
   "scripts": {
-    "build": "esbuild --bundle --platform=node --target=node24 --packages=bundle --outfile=dist/index.js index.js",
+    "build": "esbuild --bundle --platform=node --target=node24 --packages=bundle --format=esm --outfile=dist/index.js index.js",
     "lint": "prettier --check *.js **/*.{md,yml} package.json",
     "lint:fix": "prettier --write *.js **/*.{md,yml} package.json"
   },
