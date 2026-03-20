@@ -1,7 +1,7 @@
 import { inspect } from "util";
 import yaml from "js-yaml";
 
-import core from "@actions/core";
+import * as core from "@actions/core";
 import { Octokit } from "@octokit/action";
 
 main();

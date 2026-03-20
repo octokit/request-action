@@ -414,7 +414,7 @@ var require_tunnel = __commonJS({
         connectOptions.headers = connectOptions.headers || {};
         connectOptions.headers["Proxy-Authorization"] = "Basic " + new Buffer(connectOptions.proxyAuth).toString("base64");
       }
-      debug("making CONNECT request");
+      debug2("making CONNECT request");
       var connectReq = self.request(connectOptions);
       connectReq.useChunkedEncodingByDefault = false;
       connectReq.once("response", onResponse);
@@ -434,7 +434,7 @@ var require_tunnel = __commonJS({
         connectReq.removeAllListeners();
         socket.removeAllListeners();
         if (res.statusCode !== 200) {
-          debug(
+          debug2(
             "tunneling socket could not be established, statusCode=%d",
             res.statusCode
           );
@@ -446,7 +446,7 @@ var require_tunnel = __commonJS({
           return;
         }
         if (head.length > 0) {
-          debug("got illegal response body from proxy");
+          debug2("got illegal response body from proxy");
           socket.destroy();
           var error = new Error("got illegal response body from proxy");
           error.code = "ECONNRESET";
@@ -454,13 +454,13 @@ var require_tunnel = __commonJS({
           self.removeSocket(placeholder);
           return;
         }
-        debug("tunneling connection has established");
+        debug2("tunneling connection has established");
         self.sockets[self.sockets.indexOf(placeholder)] = socket;
         return cb(socket);
       }
       function onError(cause) {
         connectReq.removeAllListeners();
-        debug(
+        debug2(
           "tunneling socket could not be established, cause=%s\n",
           cause.message,
           cause.stack
@@ -522,9 +522,9 @@ var require_tunnel = __commonJS({
       }
       return target;
     }
-    var debug;
+    var debug2;
     if (process.env.NODE_DEBUG && /\btunnel\b/.test(process.env.NODE_DEBUG)) {
-      debug = function() {
+      debug2 = function() {
         var args = Array.prototype.slice.call(arguments);
         if (typeof args[0] === "string") {
           args[0] = "TUNNEL: " + args[0];
@@ -534,10 +534,10 @@ var require_tunnel = __commonJS({
         console.error.apply(console, args);
       };
     } else {
-      debug = function() {
+      debug2 = function() {
       };
     }
-    exports.debug = debug;
+    exports.debug = debug2;
   }
 });
 
@@ -19176,12 +19176,12 @@ var require_lib = __commonJS({
             throw new Error("Client has already been disposed.");
           }
           const parsedUrl = new URL(requestUrl);
-          let info = this._prepareRequest(verb, parsedUrl, headers);
+          let info2 = this._prepareRequest(verb, parsedUrl, headers);
           const maxTries = this._allowRetries && RetryableHttpVerbs.includes(verb) ? this._maxRetries + 1 : 1;
           let numTries = 0;
           let response;
           do {
-            response = yield this.requestRaw(info, data);
+            response = yield this.requestRaw(info2, data);
             if (response && response.message && response.message.statusCode === HttpCodes.Unauthorized) {
               let authenticationHandler;
               for (const handler2 of this.handlers) {
@@ -19191,7 +19191,7 @@ var require_lib = __commonJS({
                 }
               }
               if (authenticationHandler) {
-                return authenticationHandler.handleAuthentication(this, info, data);
+                return authenticationHandler.handleAuthentication(this, info2, data);
               } else {
                 return response;
               }
@@ -19214,8 +19214,8 @@ var require_lib = __commonJS({
                   }
                 }
               }
-              info = this._prepareRequest(verb, parsedRedirectUrl, headers);
-              response = yield this.requestRaw(info, data);
+              info2 = this._prepareRequest(verb, parsedRedirectUrl, headers);
+              response = yield this.requestRaw(info2, data);
               redirectsRemaining--;
             }
             if (!response.message.statusCode || !HttpResponseRetryCodes.includes(response.message.statusCode)) {
@@ -19244,7 +19244,7 @@ var require_lib = __commonJS({
        * @param info
        * @param data
        */
-      requestRaw(info, data) {
+      requestRaw(info2, data) {
         return __awaiter(this, void 0, void 0, function* () {
           return new Promise((resolve, reject) => {
             function callbackForResult(err, res) {
@@ -19256,7 +19256,7 @@ var require_lib = __commonJS({
                 resolve(res);
               }
             }
-            this.requestRawWithCallback(info, data, callbackForResult);
+            this.requestRawWithCallback(info2, data, callbackForResult);
           });
         });
       }
@@ -19266,12 +19266,12 @@ var require_lib = __commonJS({
        * @param data
        * @param onResult
        */
-      requestRawWithCallback(info, data, onResult) {
+      requestRawWithCallback(info2, data, onResult) {
         if (typeof data === "string") {
-          if (!info.options.headers) {
-            info.options.headers = {};
+          if (!info2.options.headers) {
+            info2.options.headers = {};
           }
-          info.options.headers["Content-Length"] = Buffer.byteLength(data, "utf8");
+          info2.options.headers["Content-Length"] = Buffer.byteLength(data, "utf8");
         }
         let callbackCalled = false;
         function handleResult(err, res) {
@@ -19280,7 +19280,7 @@ var require_lib = __commonJS({
             onResult(err, res);
           }
         }
-        const req = info.httpModule.request(info.options, (msg) => {
+        const req = info2.httpModule.request(info2.options, (msg) => {
           const res = new HttpClientResponse(msg);
           handleResult(void 0, res);
         });
@@ -19292,7 +19292,7 @@ var require_lib = __commonJS({
           if (socket) {
             socket.end();
           }
-          handleResult(new Error(`Request timeout: ${info.options.path}`));
+          handleResult(new Error(`Request timeout: ${info2.options.path}`));
         });
         req.on("error", function(err) {
           handleResult(err);
@@ -19328,27 +19328,27 @@ var require_lib = __commonJS({
         return this._getProxyAgentDispatcher(parsedUrl, proxyUrl);
       }
       _prepareRequest(method, requestUrl, headers) {
-        const info = {};
-        info.parsedUrl = requestUrl;
-        const usingSsl = info.parsedUrl.protocol === "https:";
-        info.httpModule = usingSsl ? https : http;
+        const info2 = {};
+        info2.parsedUrl = requestUrl;
+        const usingSsl = info2.parsedUrl.protocol === "https:";
+        info2.httpModule = usingSsl ? https : http;
         const defaultPort = usingSsl ? 443 : 80;
-        info.options = {};
-        info.options.host = info.parsedUrl.hostname;
-        info.options.port = info.parsedUrl.port ? parseInt(info.parsedUrl.port) : defaultPort;
-        info.options.path = (info.parsedUrl.pathname || "") + (info.parsedUrl.search || "");
-        info.options.method = method;
-        info.options.headers = this._mergeHeaders(headers);
+        info2.options = {};
+        info2.options.host = info2.parsedUrl.hostname;
+        info2.options.port = info2.parsedUrl.port ? parseInt(info2.parsedUrl.port) : defaultPort;
+        info2.options.path = (info2.parsedUrl.pathname || "") + (info2.parsedUrl.search || "");
+        info2.options.method = method;
+        info2.options.headers = this._mergeHeaders(headers);
         if (this.userAgent != null) {
-          info.options.headers["user-agent"] = this.userAgent;
+          info2.options.headers["user-agent"] = this.userAgent;
         }
-        info.options.agent = this._getAgent(info.parsedUrl);
+        info2.options.agent = this._getAgent(info2.parsedUrl);
         if (this.handlers) {
           for (const handler2 of this.handlers) {
-            handler2.prepareRequest(info.options);
+            handler2.prepareRequest(info2.options);
           }
         }
-        return info;
+        return info2;
       }
       _mergeHeaders(headers) {
         if (this.requestOptions && this.requestOptions.headers) {
@@ -21395,15 +21395,15 @@ var require_core = __commonJS({
     exports.getInput = getInput;
     exports.getMultilineInput = getMultilineInput;
     exports.getBooleanInput = getBooleanInput;
-    exports.setOutput = setOutput;
+    exports.setOutput = setOutput2;
     exports.setCommandEcho = setCommandEcho;
-    exports.setFailed = setFailed;
+    exports.setFailed = setFailed2;
     exports.isDebug = isDebug;
-    exports.debug = debug;
+    exports.debug = debug2;
     exports.error = error;
     exports.warning = warning;
     exports.notice = notice;
-    exports.info = info;
+    exports.info = info2;
     exports.startGroup = startGroup;
     exports.endGroup = endGroup;
     exports.group = group;
@@ -21470,7 +21470,7 @@ var require_core = __commonJS({
       throw new TypeError(`Input does not meet YAML 1.2 "Core Schema" specification: ${name}
 Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
     }
-    function setOutput(name, value) {
+    function setOutput2(name, value) {
       const filePath = process.env["GITHUB_OUTPUT"] || "";
       if (filePath) {
         return (0, file_command_1.issueFileCommand)("OUTPUT", (0, file_command_1.prepareKeyValueMessage)(name, value));
@@ -21481,14 +21481,14 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
     function setCommandEcho(enabled) {
       (0, command_1.issue)("echo", enabled ? "on" : "off");
     }
-    function setFailed(message) {
+    function setFailed2(message) {
       process.exitCode = ExitCode.Failure;
       error(message);
     }
     function isDebug() {
       return process.env["RUNNER_DEBUG"] === "1";
     }
-    function debug(message) {
+    function debug2(message) {
       (0, command_1.issueCommand)("debug", {}, message);
     }
     function error(message, properties = {}) {
@@ -21500,7 +21500,7 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
     function notice(message, properties = {}) {
       (0, command_1.issueCommand)("notice", (0, utils_1.toCommandProperties)(properties), message instanceof Error ? message.toString() : message);
     }
-    function info(message) {
+    function info2(message) {
       process.stdout.write(message + os.EOL);
     }
     function startGroup(name) {
@@ -31429,7 +31429,7 @@ var require_socks5_client = __commonJS({
     var { InvalidArgumentError, Socks5ProxyError } = require_errors2();
     var { debuglog } = __require("node:util");
     var { parseAddress } = require_socks5_utils();
-    var debug = debuglog("undici:socks5");
+    var debug2 = debuglog("undici:socks5");
     var SOCKS_VERSION = 5;
     var AUTH_METHODS = {
       NO_AUTH: 0,
@@ -31490,7 +31490,7 @@ var require_socks5_client = __commonJS({
        * Handle incoming data from the socket
        */
       onData(data) {
-        debug("received data", data.length, "bytes in state", this.state);
+        debug2("received data", data.length, "bytes in state", this.state);
         this.buffer = Buffer2.concat([this.buffer, data]);
         try {
           switch (this.state) {
@@ -31512,7 +31512,7 @@ var require_socks5_client = __commonJS({
        * Handle socket errors
        */
       onError(err) {
-        debug("socket error", err);
+        debug2("socket error", err);
         this.state = STATES.ERROR;
         this.emit("error", err);
         this.destroy();
@@ -31521,7 +31521,7 @@ var require_socks5_client = __commonJS({
        * Handle socket close
        */
       onClose() {
-        debug("socket closed");
+        debug2("socket closed");
         this.state = STATES.CLOSED;
         this.emit("close");
       }
@@ -31540,7 +31540,7 @@ var require_socks5_client = __commonJS({
         if (this.state !== STATES.INITIAL) {
           throw new InvalidArgumentError("Handshake already started");
         }
-        debug("starting handshake with", this.authMethods.length, "auth methods");
+        debug2("starting handshake with", this.authMethods.length, "auth methods");
         this.state = STATES.HANDSHAKING;
         const request2 = Buffer2.alloc(2 + this.authMethods.length);
         request2[0] = SOCKS_VERSION;
@@ -31566,7 +31566,7 @@ var require_socks5_client = __commonJS({
           throw new Socks5ProxyError("No acceptable authentication method", "UND_ERR_SOCKS5_AUTH_REJECTED");
         }
         this.buffer = this.buffer.subarray(2);
-        debug("server selected auth method", method);
+        debug2("server selected auth method", method);
         if (method === AUTH_METHODS.NO_AUTH) {
           this.emit("authenticated");
         } else if (method === AUTH_METHODS.USERNAME_PASSWORD) {
@@ -31584,7 +31584,7 @@ var require_socks5_client = __commonJS({
         if (!username || !password) {
           throw new InvalidArgumentError("Username and password required for authentication");
         }
-        debug("sending username/password auth");
+        debug2("sending username/password auth");
         const usernameBuffer = Buffer2.from(username);
         const passwordBuffer = Buffer2.from(password);
         if (usernameBuffer.length > 255 || passwordBuffer.length > 255) {
@@ -31614,7 +31614,7 @@ var require_socks5_client = __commonJS({
           throw new Socks5ProxyError("Authentication failed", "UND_ERR_SOCKS5_AUTH_FAILED");
         }
         this.buffer = this.buffer.subarray(2);
-        debug("authentication successful");
+        debug2("authentication successful");
         this.emit("authenticated");
       }
       /**
@@ -31626,7 +31626,7 @@ var require_socks5_client = __commonJS({
         if (this.state === STATES.CONNECTED) {
           throw new InvalidArgumentError("Already connected");
         }
-        debug("connecting to", address, port);
+        debug2("connecting to", address, port);
         this.state = STATES.CONNECTING;
         const request2 = this.buildConnectRequest(COMMANDS.CONNECT, address, port);
         this.socket.write(request2);
@@ -31700,7 +31700,7 @@ var require_socks5_client = __commonJS({
         const boundPort = this.buffer.readUInt16BE(offset);
         this.buffer = this.buffer.subarray(responseLength);
         this.state = STATES.CONNECTED;
-        debug("connected, bound address:", boundAddress, "port:", boundPort);
+        debug2("connected, bound address:", boundAddress, "port:", boundPort);
         this.emit("connected", { address: boundAddress, port: boundPort });
       }
       /**
@@ -31754,7 +31754,7 @@ var require_socks5_proxy_agent = __commonJS({
     var Pool = require_pool2();
     var buildConnector = require_connect2();
     var { debuglog } = __require("node:util");
-    var debug = debuglog("undici:socks5-proxy");
+    var debug2 = debuglog("undici:socks5-proxy");
     var kProxyUrl = /* @__PURE__ */ Symbol("proxy url");
     var kProxyHeaders = /* @__PURE__ */ Symbol("proxy headers");
     var kProxyAuth = /* @__PURE__ */ Symbol("proxy auth");
@@ -31796,7 +31796,7 @@ var require_socks5_proxy_agent = __commonJS({
       async createSocks5Connection(targetHost, targetPort) {
         const proxyHost = this[kProxyUrl].hostname;
         const proxyPort = parseInt(this[kProxyUrl].port) || 1080;
-        debug("creating SOCKS5 connection to", proxyHost, proxyPort);
+        debug2("creating SOCKS5 connection to", proxyHost, proxyPort);
         const socket = await new Promise((resolve, reject) => {
           const onConnect = () => {
             socket2.removeListener("error", onError);
@@ -31815,7 +31815,7 @@ var require_socks5_proxy_agent = __commonJS({
         });
         const socks5Client = new Socks5Client(socket, this[kProxyAuth]);
         socks5Client.on("error", (err) => {
-          debug("SOCKS5 error:", err);
+          debug2("SOCKS5 error:", err);
           socket.destroy();
         });
         await socks5Client.handshake();
@@ -31846,8 +31846,8 @@ var require_socks5_proxy_agent = __commonJS({
           const timeout = setTimeout(() => {
             reject(new Error("SOCKS5 connection timeout"));
           }, 5e3);
-          const onConnected = (info) => {
-            debug("SOCKS5 tunnel established to", targetHost, targetPort, "via", info);
+          const onConnected = (info2) => {
+            debug2("SOCKS5 tunnel established to", targetHost, targetPort, "via", info2);
             clearTimeout(timeout);
             socks5Client.removeListener("error", onError);
             resolve();
@@ -31867,7 +31867,7 @@ var require_socks5_proxy_agent = __commonJS({
        */
       async [kDispatch](opts, handler2) {
         const { origin } = opts;
-        debug("dispatching request to", origin, "via SOCKS5");
+        debug2("dispatching request to", origin, "via SOCKS5");
         try {
           if (!this[kPool] || this[kPool].destroyed || this[kPool].closed) {
             this[kPool] = new Pool(origin, {
@@ -31878,14 +31878,14 @@ var require_socks5_proxy_agent = __commonJS({
                   const url = new URL2(origin);
                   const targetHost = url.hostname;
                   const targetPort = parseInt(url.port) || (url.protocol === "https:" ? 443 : 80);
-                  debug("establishing SOCKS5 connection to", targetHost, targetPort);
+                  debug2("establishing SOCKS5 connection to", targetHost, targetPort);
                   const socket = await this.createSocks5Connection(targetHost, targetPort);
                   let finalSocket = socket;
                   if (url.protocol === "https:") {
                     if (!tls) {
                       tls = __require("node:tls");
                     }
-                    debug("upgrading to TLS");
+                    debug2("upgrading to TLS");
                     finalSocket = tls.connect({
                       socket,
                       servername: targetHost,
@@ -31898,7 +31898,7 @@ var require_socks5_proxy_agent = __commonJS({
                   }
                   callback(null, finalSocket);
                 } catch (err) {
-                  debug("SOCKS5 connection error:", err);
+                  debug2("SOCKS5 connection error:", err);
                   callback(err);
                 }
               }
@@ -31906,7 +31906,7 @@ var require_socks5_proxy_agent = __commonJS({
           }
           return this[kPool][kDispatch](opts, handler2);
         } catch (err) {
-          debug("dispatch error:", err);
+          debug2("dispatch error:", err);
           if (typeof handler2.onError === "function") {
             handler2.onError(err);
           } else {
@@ -49028,7 +49028,7 @@ var jsYaml = {
 };
 
 // index.js
-var import_core2 = __toESM(require_core(), 1);
+var core2 = __toESM(require_core(), 1);
 
 // node_modules/universal-user-agent/index.js
 function getUserAgent() {
@@ -52697,9 +52697,9 @@ async function main() {
   try {
     const octokit = new Octokit2();
     const { route, ...parameters } = getAllInputs();
-    import_core2.default.info(route);
+    core2.info(route);
     for (const [name, value] of Object.entries(parameters)) {
-      import_core2.default.info(`> ${name}: ${value}`);
+      core2.info(`> ${name}: ${value}`);
     }
     const { url, body, ...options } = octokit.request.endpoint(
       route,
@@ -52713,24 +52713,24 @@ async function main() {
         (_, match) => "/repos/" + decodeURIComponent(match)
       )
     };
-    import_core2.default.debug(`route: ${inspect(route)}`);
-    import_core2.default.debug(`parameters: ${inspect(parameters)}`);
-    import_core2.default.debug(`parsed request options: ${inspect(requestOptions)}`);
+    core2.debug(`route: ${inspect(route)}`);
+    core2.debug(`parameters: ${inspect(parameters)}`);
+    core2.debug(`parsed request options: ${inspect(requestOptions)}`);
     const { status, headers, data } = await octokit.request(requestOptions);
-    import_core2.default.info(`< ${status} ${Date.now() - time}ms`);
-    import_core2.default.setOutput("status", status);
-    import_core2.default.setOutput("headers", JSON.stringify(headers, null, 2));
-    import_core2.default.setOutput(
+    core2.info(`< ${status} ${Date.now() - time}ms`);
+    core2.setOutput("status", status);
+    core2.setOutput("headers", JSON.stringify(headers, null, 2));
+    core2.setOutput(
       "data",
       typeof data === "object" ? JSON.stringify(data, null, 2) : data
     );
   } catch (error) {
     if (error.status) {
-      import_core2.default.info(`< ${error.status} ${Date.now() - time}ms`);
+      core2.info(`< ${error.status} ${Date.now() - time}ms`);
     }
-    import_core2.default.setOutput("status", error.status);
-    import_core2.default.debug(inspect(error));
-    import_core2.default.setFailed(error.message);
+    core2.setOutput("status", error.status);
+    core2.debug(inspect(error));
+    core2.setFailed(error.message);
   }
 }
 function getAllInputs() {
