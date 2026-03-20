@@ -1,0 +1,22 @@
+diff --git a/node_modules/tunnel/lib/tunnel.js b/node_modules/tunnel/lib/tunnel.js
+index 10cc382..dd7f43f 100644
+--- a/node_modules/tunnel/lib/tunnel.js
++++ b/node_modules/tunnel/lib/tunnel.js
+@@ -1,12 +1,10 @@
+ 'use strict';
+ 
+-var net = require('net');
+-var tls = require('tls');
+-var http = require('http');
+-var https = require('https');
+-var events = require('events');
+-var assert = require('assert');
+-var util = require('util');
++var tls = require('node:tls');
++var http = require('node:http');
++var https = require('node:https');
++var events = require('node:events');
++var util = require('node:util');
+ 
+ 
+ exports.httpOverHttp = httpOverHttp;

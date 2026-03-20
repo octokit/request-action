@@ -8,7 +8,8 @@
   "scripts": {
     "build": "esbuild --bundle --platform=node --target=node24 --packages=bundle --format=esm --outfile=dist/index.js index.js",
     "lint": "prettier --check *.js **/*.{md,yml} package.json",
-    "lint:fix": "prettier --write *.js **/*.{md,yml} package.json"
+    "lint:fix": "prettier --write *.js **/*.{md,yml} package.json",
+    "postinstall": "patch-package"
   },
   "repository": "github:octokit/request-action",
   "keywords": [
@@ -24,6 +25,8 @@
   },
   "devDependencies": {
     "esbuild": "^0.27.0",
+    "patch-package": "^8.0.1",
+    "postinstall-postinstall": "^2.1.0",
     "prettier": "3.8.1"
   },
   "release": {

@@ -1,4 +1,4 @@
-import { inspect } from "util";
+import { inspect } from "node:util";
 import yaml from "js-yaml";
 
 import * as core from "@actions/core";
