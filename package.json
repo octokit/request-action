@@ -6,10 +6,9 @@
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
-    "build": "esbuild --bundle --platform=node --target=node24 --packages=bundle --format=esm --outfile=dist/index.js index.js",
+    "build": "rollup --config rollup.config.js",
     "lint": "prettier --check *.js **/*.{md,yml} package.json",
-    "lint:fix": "prettier --write *.js **/*.{md,yml} package.json",
-    "postinstall": "patch-package"
+    "lint:fix": "prettier --write *.js **/*.{md,yml} package.json"
   },
   "repository": "github:octokit/request-action",
   "keywords": [
@@ -24,10 +23,10 @@
     "js-yaml": "^4.1.0"
   },
   "devDependencies": {
-    "esbuild": "^0.27.0",
-    "patch-package": "^8.0.1",
-    "postinstall-postinstall": "^2.1.0",
-    "prettier": "3.8.1"
+    "@rollup/plugin-commonjs": "^29.0.2",
+    "@rollup/plugin-node-resolve": "^16.0.3",
+    "prettier": "3.8.1",
+    "rollup": "^4.59.0"
   },
   "release": {
     "branches": [
