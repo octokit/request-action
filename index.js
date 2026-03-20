@@ -1,8 +1,8 @@
-const { inspect } = require("util");
-const yaml = require("js-yaml");
+import { inspect } from "node:util";
+import yaml from "js-yaml";
 
-const core = require("@actions/core");
-const { Octokit } = require("@octokit/action");
+import * as core from "@actions/core";
+import { Octokit } from "@octokit/action";
 
 main();
 
