@@ -1,6 +1,9 @@
 on:
   - push
 name: Test
+permissions:
+  contents: read
+  checks: write
 jobs:
   lint:
     name: Lint
