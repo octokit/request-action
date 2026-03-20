@@ -34,6 +34,6 @@ jobs:
       - run: >-
           git push
           https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
-          HEAD:refs/heads/v2.x
+          HEAD:refs/heads/v3.x
         env:
           GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
