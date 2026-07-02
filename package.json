@@ -20,7 +20,7 @@
     "@actions/core": "^3.0.0",
     "@octokit/action": "^8.0.0",
     "@semantic-release/git": "^10.0.1",
-    "js-yaml": "^4.1.0"
+    "js-yaml": "^5.0.0"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^29.0.2",
